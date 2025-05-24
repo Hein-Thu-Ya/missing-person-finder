@@ -1,16 +1,5 @@
 {
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/"
-        },
-        {
-            "src": "/add",
-            "dest": "/add"
-        },
-        {
-            "src": "/find",
-            "dest": "/find"
-        }
-    ]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
