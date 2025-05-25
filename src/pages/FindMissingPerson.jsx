@@ -6,12 +6,14 @@ import { motion } from "framer-motion";
 import { Search, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/lib/supabase";
+import { useTranslation } from "react-i18next";
 
 function FindMissingPerson() {
   const [searchTerm, setSearchTerm] = useState("");
   const [missingPeople, setMissingPeople] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchMissingPeople();
@@ -110,11 +112,11 @@ function FindMissingPerson() {
   return (
     <div>
       <div className="max-w-2xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold mb-6">Find Missing Person</h1>
+        <h1 className="text-3xl font-bold mb-6">{t('Find Missing Person')}</h1>
         <div className="flex gap-4">
           <Input
             type="text"
-            placeholder="Search by name, location, or description..."
+            placeholder={t('Search by name, location, or description...')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1"
@@ -145,30 +147,30 @@ function FindMissingPerson() {
               )}
               <CardHeader>
                 <CardTitle>{person.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">Age: {person.age}</p>
+                <p className="text-sm text-muted-foreground">{t('Age')}: {person.age}</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Last Seen:</strong> {person.last_seen}
+                    <strong>{t('Last Seen')}:</strong> {person.last_seen}
                   </p>
                   <p>
-                    <strong>Description:</strong> {person.description}
+                    <strong>{t('Description')}:</strong> {person.description}
                   </p>
                   <p>
-                    <strong>Contact:</strong> {person.contact}
+                    <strong>{t('Contact')}:</strong> {person.contact}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Reported on: {new Date(person.date_reported).toLocaleDateString()}
+                    {t('Reported on')}: {new Date(person.date_reported).toLocaleDateString()}
                   </p>
                   {person.status === "found" && person.date_found && (
                     <p className="text-sm text-green-600">
-                      Found on: {new Date(person.date_found).toLocaleDateString()}
+                      {t('Found on')}: {new Date(person.date_found).toLocaleDateString()}
                     </p>
                   )}
                   {person.status === "found" && (
                     <div className="bg-green-500 text-white px-2 py-1 rounded-full text-sm flex items-center w-20">
-                      <CheckCircle2 className="w-4 h-4" />&nbsp;Found
+                      <CheckCircle2 className="w-4 h-4" />&nbsp;{t('Found')}
                     </div>
                   )}
                 </div>
@@ -180,17 +182,16 @@ function FindMissingPerson() {
                     className="w-full bg-green-500 hover:bg-green-600"
                   >
                     <CheckCircle2 className="w-4 h-4 mr-2" />
-                    Mark as Found
+                    {t('Mark as Found')}
                   </Button>
                 </CardFooter>
               )}
             </Card>
           </motion.div>
         ))}
-        
         {filteredPeople.length === 0 && (
           <div className="col-span-full text-center py-8">
-            <p className="text-muted-foreground">No matching records found.</p>
+            <p className="text-muted-foreground">{t('No matching records found.')}</p>
           </div>
         )}
       </div>

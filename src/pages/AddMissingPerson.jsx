@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,10 +6,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { motion } from "framer-motion";
 import { Image as ImageIcon, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { useTranslation } from "react-i18next";
 
 function AddMissingPerson() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -27,8 +28,8 @@ function AddMissingPerson() {
     
     if (!formData.image) {
       toast({
-        title: "Image Required",
-        description: "Please upload an image of the missing person.",
+        title: t('Image Required'),
+        description: t('Please upload an image of the missing person.'),
         variant: "destructive"
       });
       return;
@@ -73,15 +74,15 @@ function AddMissingPerson() {
       if (error) throw error;
 
       toast({
-        title: "Report Submitted",
-        description: "The missing person report has been successfully submitted.",
+        title: t('Report Submitted'),
+        description: t('The missing person report has been successfully submitted.'),
       });
 
       navigate("/find");
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to submit the report. Please try again.",
+        title: t('Error'),
+        description: t('Failed to submit the report. Please try again.'),
         variant: "destructive"
       });
       console.error("Error:", error);
@@ -115,19 +116,19 @@ function AddMissingPerson() {
       transition={{ duration: 0.5 }}
       className="max-w-2xl mx-auto"
     >
-      <h1 className="text-3xl font-bold mb-6">Report Missing Person</h1>
+      <h1 className="text-3xl font-bold mb-6">{t('Report Missing Person')}</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <label className="block text-sm font-medium mb-2">Photo</label>
+          <label className="block text-sm font-medium mb-2">{t('Photo')}</label>
           <div className="flex items-center justify-center w-full">
             {!imagePreview ? (
               <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <ImageIcon className="w-10 h-10 mb-3 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-500">
-                    <span className="font-semibold">Click to upload</span> or drag and drop
+                    <span className="font-semibold">{t('Click to upload')}</span> {t('or drag and drop')}
                   </p>
-                  <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 5MB)</p>
+                  <p className="text-xs text-gray-500">{t('PNG, JPG or JPEG (MAX. 5MB)')}</p>
                 </div>
                 <input
                   type="file"
@@ -156,64 +157,64 @@ function AddMissingPerson() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Full Name</label>
+          <label className="block text-sm font-medium mb-2">{t('Full Name')}</label>
           <Input
             required
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Enter full name"
+            placeholder={t('Enter full name')}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Age</label>
+          <label className="block text-sm font-medium mb-2">{t('Age')}</label>
           <Input
             required
             type="number"
             name="age"
             value={formData.age}
             onChange={handleChange}
-            placeholder="Enter age"
+            placeholder={t('Enter age')}
             min="0"
             max="120"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Last Seen</label>
+          <label className="block text-sm font-medium mb-2">{t('Last Seen')}</label>
           <Input
             required
             type="text"
             name="lastSeen"
             value={formData.lastSeen}
             onChange={handleChange}
-            placeholder="Location or date last seen"
+            placeholder={t('Location or date last seen')}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Description</label>
+          <label className="block text-sm font-medium mb-2">{t('Description')}</label>
           <Input
             required
             type="text"
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Physical description, clothing, etc."
+            placeholder={t('Physical description, clothing, etc.')}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Contact Information</label>
+          <label className="block text-sm font-medium mb-2">{t('Contact Information')}</label>
           <Input
             required
             type="text"
             name="contact"
             value={formData.contact}
             onChange={handleChange}
-            placeholder="Your contact information"
+            placeholder={t('Your contact information')}
           />
         </div>
 
@@ -223,7 +224,7 @@ function AddMissingPerson() {
             className="w-full"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit Report"}
+            {isSubmitting ? t('Submitting...') : t('Submit Report')}
           </Button>
         </div>
       </form>
